@@ -1,17 +1,16 @@
 @extends('layouts.app')
-
 @section('title', "Create Single Dev")
 
 @section('main')
 
 
-<div class="container mt-5">
+<div class="container mt-3">
     <div class="col-md-5">
         <a href="{{ route('student.index') }}"
             class="btn btn-primary mb-2"> Back </a>
         <div class="card">
             <div class="card-header">
-                <h2> Add New Student</h2>
+                <h4> Add New Student</h4>
             </div>
             <div class="card-body">
 
@@ -65,10 +64,11 @@
                 @endif -->
 
                 <form action="{{ route('student.store') }}"
-                    method="POST">
+                    method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="my-2">
-                        <label for=""> Name </label>
+                        <label for=""> <b> Name </b> </label>
                         <input type="text"
                             class="form-control"
                             name="name"
@@ -78,7 +78,7 @@
                         @enderror
                     </div>
                     <div class="my-2">
-                        <label for=""> Email </label>
+                        <label for=""> <b> Email </b> </label>
                         <input type="text"
                             class="form-control"
                             name="email"
@@ -88,7 +88,17 @@
                         @enderror
                     </div>
                     <div class="my-2">
-                        <label for=""> Cell </label>
+                        <label for=""> <b> Age </b> </label>
+                        <input type="text"
+                            class="form-control"
+                            name="age"
+                            value="{{ old('age') }}">
+                        @error('age')
+                        <p class="text-danger"> * Required </p>
+                        @enderror
+                    </div>
+                    <div class="my-2">
+                        <label for=""> <b> Cell </b> </label>
                         <input type="text"
                             class="form-control"
                             name="cell"
@@ -98,7 +108,7 @@
                         @enderror
                     </div>
                     <div class="my-2">
-                        <label for=""> UserName </label>
+                        <label for=""> <b> UserName </b> </label>
                         <input type="text"
                             class="form-control"
                             name="username"
@@ -108,7 +118,7 @@
                         @enderror
                     </div>
                     <div class="my-2">
-                        <label for=""> Education </label>
+                        <label for=""> <b> Education </b> </label>
                         <select name="edu"
                             class="form-control"
                             id="">
@@ -117,6 +127,61 @@
                             <option value="HSC"> HSC </option>
                             <option value="JSC"> JSC </option>
                         </select>
+                    </div>
+                    <div class="my-2">
+                        <label for=""> <b> Gender </b> </label> <br>
+                        <label>
+                            <input type="radio"
+                                name="gender"
+                                value="Male"
+                                id=""> Male
+                        </label>
+                        <label>
+                            <input type="radio"
+                                name="gender"
+                                value="Female"
+                                id=""> Female
+                        </label>
+                    </div>
+                    <div class="my-2">
+                        <label for=""> <b> Select Your Courses </b> </label> <br>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                value="Mern Stack"> Mern Stack
+                        </label>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                value="React Native"> React Native
+                        </label>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                class="ml-5"
+                                value="Laravel"> Laravel
+                        </label> <br>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                value="Wordpress"> Wordpress
+                        </label>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                value="BlockChain"> BlockChain
+                        </label>
+                        <label>
+                            <input type="checkbox"
+                                name="course[]"
+                                value="Shopify"> Shopify
+                        </label>
+                    </div>
+                    <div class="my-2">
+                        <label for=""> <b> Profile Photo </b> </label>
+                        <input type="file"
+                            class="form-control"
+                            name="photo">
                     </div>
 
                     <div class="my-2">

@@ -33,6 +33,7 @@
                                 <th> #ID </th>
                                 <th> Photo </th>
                                 <th> Name </th>
+                                <th> Age </th>
                                 <th> Email </th>
                                 <th> Cell </th>
                                 <th> Education </th>
@@ -49,6 +50,7 @@
                                         alt=""
                                         style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%"> </td>
                                 <td>{{ $student->name }}</td>
+                                <td>{{ $student->age }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td>{{ $student->cell }}</td>
                                 <td>{{ $student->edu }}</td>

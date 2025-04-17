@@ -18,6 +18,10 @@ return new class extends Migration
             $table->string("cell");
             $table->string("username");
             $table->string("edu");
+            $table->string("photo") -> nullable();
+            $table->integer("age");
+            $table->string("gender");
+            $table->text("course") -> nullable();
             $table->boolean("status")-> default(true);
             $table->boolean("trash")-> default(false);
             $table->timestamps();

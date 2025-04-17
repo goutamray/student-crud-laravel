@@ -29,24 +29,44 @@ class StudentController extends Controller
      * store data
      */
     public function store(Request $request){
+             
+    
+
         $validated = $request->validate([
             "name" => 'required',
             "email" => 'required|email',
             "cell" => 'required|starts_with:01,8801,+8801',
             "username" => 'required|min:6|max:12',
             "edu" => 'required',
+            "age" => 'required',   
+        
         ],[
             "name.required"  => "আপনার নামের ঘরটি পূরণ করুন ?",
             "email.required" => "আপনার ইমেইল টি দিন ?",
             "cell"           => "আপনার ফোন নাম্বার টি দিন ?"
         ]);
 
+        // photo upload 
+          if ($request -> hasFile("photo")) {
+             $img = $request -> file("photo"); 
+             $file_name = md5(time().rand()).'.'.$img -> clientExtension(); 
+             $img -> move(public_path("photos/", $file_name));
+          }else{
+            $file_name = null;
+          }
+
+
+
             Student::create([
-                "name"     => $request->name,
-                "email"    => $request->email,
-                "cell"     => $request->cell,
-                "username" => $request->username,
-                "edu"      => $request->edu,
+                "name"        => $request->name,
+                "email"       => $request->email,
+                "cell"        => $request->cell,
+                "username"    => $request->username,
+                "edu"         => $request->edu,
+                "age"         => $request->age,
+                "gender"      => $request->gender,
+                 "photo"       => $file_name,
+                "course"      => json_encode($request->course),  // array type data encode kore rakte hbe
             ]);
             return back()->with('success', 'Student created successfully!');
     
