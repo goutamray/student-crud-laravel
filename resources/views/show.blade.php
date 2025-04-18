@@ -14,10 +14,10 @@
             <div class="single-data">
                 <div class="singleData">
                     <div class="card p-2">
-                        <img style="max-width: 100%;"
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrWw4xs7f8dW6LGlGESCOOBOZrdECgEr2ayw&s"
+                        <img style="max-width: 100%; height: 400px; object-fit:cover; border-radius:8px;"
+                            src="{{ asset('storage/students/' . $student->photo) }}"
                             alt="">
-                        <p> Name : <b> {{ $student->name }} </b> </p>
+                        <p class="mt-3"> Name : <b> {{ $student->name }} </b> </p>
                         <p>Email : <b> {{ $student->email }} </b> </p>
                         <p>Phone : <b> {{ $student->cell }} </b> </p>
 

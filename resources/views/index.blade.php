@@ -23,21 +23,23 @@
             </div>
             <div class="card shadow">
                 <div class="card-header">
-                    <h2 class="text-center"> All Devs </h2>
+                    <h2 class="text-center"> All Developers Data </h2>
                 </div>
                 <div class="card-body">
 
-                    <table class="table table-striped ">
+                    <table class="table table-striped table-bordered">
                         <thead>
                             <tr>
                                 <th> #ID </th>
                                 <th> Photo </th>
                                 <th> Name </th>
-                                <th> Age </th>
                                 <th> Email </th>
                                 <th> Cell </th>
+                                <th> Age </th>
                                 <th> Education </th>
+                                <th> Gender </th>
                                 <th> Username </th>
+                                <th> Courses </th>
                                 <th> Action </th>
                             </tr>
                         </thead>
@@ -45,16 +47,35 @@
                             @forelse ($students as $student)
                             <tr class="align-middle">
                                 <td>{{ $loop->index + 1 }} </td>
-                                <td> <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrWw4xs7f8dW6LGlGESCOOBOZrdECgEr2ayw&s"
+                                <td>
+                                    <img src="{{ asset('storage/students/' . $student->photo) }}"
                                         alt=""
-                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%"> </td>
+                                        style="width: 60px; height: 60px; object-fit: cover; border-radius: 50%">
+                                </td>
                                 <td>{{ $student->name }}</td>
-                                <td>{{ $student->age }}</td>
                                 <td>{{ $student->email }}</td>
                                 <td>{{ $student->cell }}</td>
+                                <td>{{ $student->age }}</td>
                                 <td>{{ $student->edu }}</td>
+                                <td>{{ $student->gender }}</td>
                                 <td>{{ $student->username }}</td>
+                                <td>
+                                    @php
+                                    $courses = json_decode($student->course, true);
+                                    @endphp
+
+                                    <ul>
+                                        @if (is_array($courses))
+                                        @forelse($courses as $item)
+                                        <li>{{ $item }}</li>
+                                        @empty
+                                        <li>No Course Found</li>
+                                        @endforelse
+                                        @else
+                                        <li>No Course Found</li>
+                                        @endif
+                                    </ul>
+                                </td>
                                 <td>
                                     <a href="{{ route('student.show', $student->id) }}"
                                         class="btn btn-info"> View </a>
@@ -69,8 +90,8 @@
                             @empty
                             <tr>
                                 <td class="text-center"
-                                    colspan="8">
-                                    <h3> No Student Found! </h3>
+                                    colspan="11">
+                                    <h4> No Student Found! </h4>
                                 </td>
                             </tr>
 

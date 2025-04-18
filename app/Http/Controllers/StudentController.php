@@ -28,10 +28,8 @@ class StudentController extends Controller
      * 
      * store data
      */
-    public function store(Request $request){
-             
-    
-
+    public function store(Request $request)
+    {
         $validated = $request->validate([
             "name" => 'required',
             "email" => 'required|email',
@@ -45,32 +43,31 @@ class StudentController extends Controller
             "email.required" => "আপনার ইমেইল টি দিন ?",
             "cell"           => "আপনার ফোন নাম্বার টি দিন ?"
         ]);
-
-        // photo upload 
-          if ($request -> hasFile("photo")) {
-             $img = $request -> file("photo"); 
-             $file_name = md5(time().rand()).'.'.$img -> clientExtension(); 
-             $img -> move(public_path("photos/", $file_name));
-          }else{
-            $file_name = null;
-          }
-
-
-
-            Student::create([
-                "name"        => $request->name,
-                "email"       => $request->email,
-                "cell"        => $request->cell,
-                "username"    => $request->username,
-                "edu"         => $request->edu,
-                "age"         => $request->age,
-                "gender"      => $request->gender,
-                 "photo"       => $file_name,
-                "course"      => json_encode($request->course),  // array type data encode kore rakte hbe
-            ]);
-            return back()->with('success', 'Student created successfully!');
     
+        // ✅ Photo Upload
+        $file_name = null;
+        if ($request->hasFile('photo')) {
+            $img = $request->file('photo');
+            $file_name = md5(time() . rand()) . '.' . $img->getClientOriginalExtension();
+            $img->move(storage_path('app/public/students/'), $file_name);
+        }
+    
+        // ✅ Create Student
+        Student::create([
+            "name"        => $request->name,
+            "email"       => $request->email,
+            "cell"        => $request->cell,
+            "username"    => $request->username,
+            "edu"         => $request->edu,
+            "age"         => $request->age,
+            "gender"      => $request->gender,
+            'photo'       => $file_name,
+            'course'      => json_encode($request->course),
+        ]);
+    
+        return back()->with('success', 'Student created successfully!');
     }
+    
 
     public function create(){
         return view('create');
@@ -108,7 +105,8 @@ class StudentController extends Controller
         $edit_student = Student::findorFail($id); 
 
         return view('edit', [
-            "edit_data" => $edit_student
+            "edit_data" => $edit_student,
+            "course"    => ['Mern Stack', "React Native", "Laravel", "Wordpress", "BlockChain", "Shopify"]
         ]);
     }
 
@@ -119,6 +117,20 @@ class StudentController extends Controller
     public function update(Request $request, $id)
     {
         $update_data = Student::findOrFail($id);
+
+        // file manage 
+        if ($request -> hasFile("new_photo")) {
+           $img = $request -> file("new_photo");
+           $file_name = md5(time() . rand()) . '.' . $img->getClientOriginalExtension();
+           $img->move(storage_path('app/public/students/'), $file_name);
+
+           // remove old photo
+           unlink('storage/students/' . $update_data  -> photo);
+
+           
+        }else{
+            $file_name = $request -> old_photo;
+        }
     
         $update_data->update([
             'name'     => $request->name,
@@ -126,6 +138,10 @@ class StudentController extends Controller
             'cell'     => $request->cell,
             'username' => $request->username,
             'edu'      => $request->edu,
+            'age'      => $request->age,
+            'gender'   => $request->gender,
+            'photo'    => $file_name,
+            'course'   => json_encode($request->course),  // array ke json encode kore database a store korte hbe,,,
         ]);
     
         return back()->with('success', 'Student updated successfully!');

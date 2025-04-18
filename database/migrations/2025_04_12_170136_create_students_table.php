@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string("photo") -> nullable();
             $table->integer("age");
             $table->string("gender");
-            $table->text("course") -> nullable();
+            $table->json('course')->default(json_encode([]));
             $table->boolean("status")-> default(true);
             $table->boolean("trash")-> default(false);
             $table->timestamps();
