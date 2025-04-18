@@ -1,10 +1,14 @@
 <?php
 
+use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StudentController;
 use Illuminate\Support\Facades\Route;
 
+/**
+ * 
+ * Students Route all 
+ */
 
-// get route
 Route::get("student", [StudentController::class, "index"]) -> name('student.index');
 Route::get("student-create", [StudentController::class, "create"]) -> name('student.create');
 Route::get("student-show/{id}", [StudentController::class, "show"]) -> name('student.show');
@@ -23,3 +27,11 @@ Route::get("student-edit/{id}", [StudentController::class, "edit"]) -> name('stu
 
 // update route 
 Route::put('student-update/{id}', [StudentController::class, 'update'])->name('student.update');
+
+
+/**
+ * 
+ * Staff Route all 
+ */
+
+Route::resource("staff", StaffController::class);
