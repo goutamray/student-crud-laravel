@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\StaffAccountMail;
 use App\Models\Staff;
+use App\Notifications\StaffAccountNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class StaffController extends Controller
 {
@@ -13,6 +16,8 @@ class StaffController extends Controller
     public function index()
     {
         $staff = Staff::latest() -> get();
+
+       
 
         return view("staff.index", [
             "staffs" =>  $staff
@@ -47,12 +52,26 @@ class StaffController extends Controller
         }
     
         // ✅ Create Staff
-        Staff::create([
+      $staff = Staff::create([
             "name"        => $request->name,
             "email"       => $request->email,
             "cell"        => $request->cell,
             'photo'       => $file_name,
         ]);
+   
+         $data = [
+            "name"        => $request->name,
+            "email"       => $request->email,
+            "cell"        => $request->cell,
+            'photo'       => $file_name,
+        ];
+
+
+
+        $staff -> notify(new StaffAccountNotification($data) );
+
+        // send mail 
+        // Mail::to( $request->email) -> send( new StaffAccountMail( $data )); 
     
         return back()->with('success', 'Staff created successfully!');
     }
